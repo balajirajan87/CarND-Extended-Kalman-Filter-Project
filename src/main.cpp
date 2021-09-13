@@ -79,7 +79,6 @@ int main() {
 
           if (sensor_type.compare("L") == 0) 
           {
-            /*
             meas_package.sensor_type_ = MeasurementPackage::LASER;
             meas_package.raw_measurements_ = VectorXd(2);
             float px;
@@ -99,10 +98,10 @@ int main() {
             gt_values(2) = vx_gt;
             gt_values(3) = vy_gt;
             ground_truth.push_back(gt_values);
-            */
           } 
           else if (sensor_type.compare("R") == 0) 
           {
+            /*
             meas_package.sensor_type_ = MeasurementPackage::RADAR;
             meas_package.raw_measurements_ = VectorXd(3);
             float ro;
@@ -124,8 +123,9 @@ int main() {
             gt_values(2) = vx_gt;
             gt_values(3) = vy_gt;
             ground_truth.push_back(gt_values);
+            */
           }
-          if (sensor_type.compare("R") == 0)
+          if (sensor_type.compare("L") == 0)
           {
             //Call ProcessMeasurement(meas_package) for Kalman filter
             fusionEKF.ProcessMeasurement(meas_package);
@@ -151,14 +151,14 @@ int main() {
 
           estimations.push_back(estimate);
 
-          if (sensor_type.compare("R") == 0)
+          if (sensor_type.compare("L") == 0)
           {
-            VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
+            RMSE = tools.CalculateRMSE(estimations, ground_truth);
           }
           else
           {
             ground_truth.push_back(gt_values);
-            VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
+            RMSE = tools.CalculateRMSE(estimations, ground_truth);
           }
           json msgJson;
           msgJson["estimate_x"] = p_x;
